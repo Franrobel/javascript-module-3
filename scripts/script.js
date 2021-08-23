@@ -1,12 +1,15 @@
-const renderEpisodesList = (episode) => {
-    episode.results.forEach( (i, index) => {
+const renderEpisodesList = (episodes) => {
+    episodes.results.forEach( (elem, index) => {
         let listElem = document.createElement("li");
-        listElem.classList.add(`episode-${episode.results[i++]}`);
+        listElem.classList.add(`episode-${index++}`);
+        document.querySelector(".list-group").appendChild(listElem)
         listElem.style.listStyle = "none"
-        listElem.innerHTML =`<button>Episode ${episode.results[i]}</button>`
-        document.querySelector("#episodes-list").appendChild(listElem)
-console.log(i);
-        
+        listElem.style.textAlign = "center"
+        listElem.style.margin = "2px 5px 2px 5px"
+        listElem.innerHTML =`<button class="btn btn-success">Episode ${elem.id}</button>`
+        console.log(elem)
+        console.log(index)
+
     });
 }
 
@@ -15,6 +18,5 @@ const getRicMortyEpisodes = async () => {
     const fetchUrl = await fetch(url);
     const toJS = await fetchUrl.json();
     renderEpisodesList(toJS)
-    console.log(toJS)
 } 
 getRicMortyEpisodes()
