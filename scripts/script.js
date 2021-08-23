@@ -1,9 +1,9 @@
 const renderEpisodesList = (episode) => {
     episode.results.forEach( (i, index) => {
         let listElem = document.createElement("li");
-        listElem.classList.add(`episode-${episode.results[index]}`);
+        listElem.classList.add(`episode-${episode.results[i++]}`);
         listElem.style.listStyle = "none"
-        listElem.innerHTML =`<button>Episode ${episode.results[index++].i}</button>`
+        listElem.innerHTML =`<button>Episode ${episode.results[i]}</button>`
         document.querySelector("#episodes-list").appendChild(listElem)
 console.log(i);
         
