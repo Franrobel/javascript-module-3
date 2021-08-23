@@ -1,3 +1,6 @@
 #root {
     display: flex;
 }
+#right-side {
+    display: flex;
+}
