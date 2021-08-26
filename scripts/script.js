@@ -10,15 +10,14 @@ const getSingleCharacter = (character) => {
         divEpisode.appendChild(characterCard)
 }
 
-const getCharacters =  async numOfCharac => {
+const getCharacters =  async (id) => {
     //console.log(arrayCharacters)
      // try se usa para todo lo que hara la funcion si todo esta bien en los inputs 
       try {  
-        const url = `https://rickandmortyapi.com/api/character/${numOfCharac}`;
+        const url = `https://rickandmortyapi.com/api/character/${id}`;
         const response = await fetch(url)
         const parsedRes = await response.json() // en parsedRes convertimos response (que es obj json) a un obt JS asi podemos aplicar metodos de JS
-       getEpisodeCard(parsedRes)
-       console.log(numOfCharac)
+       console.log(parsedRes)
         } catch (e){
             console.log(e)
     } 
@@ -27,13 +26,13 @@ const getEpisodeCard = (episode) => {
     console.log(episode)
     rightSide.appendChild(divEpisode)
     divEpisode.innerHTML = `<h2>${episode.name}</h2> <h6>${episode.air_date} | ${episode.episode}</h6>`;
-    console.log(episode.characters)//HASTA ACA ESTOY ACCEDIENDO AL ARRAY CON LAS URLS DE LOS CHARACTERS
+    console.log(episode.characters)
     const charactersEpisode = document.createElement("div");
     charactersEpisode.classList.add("characters-episode", "row")
 
     divEpisode.appendChild(charactersEpisode)
   episode.characters.forEach((elem, index) =>{
-        console.log(elem)
+      console.log(getCharacters())
         const cards = document.createElement("div");
         cards.classList.add("card", "character", "m-4");
         cards.style.width = "15rem";
