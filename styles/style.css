@@ -1,6 +1,16 @@
-#root {
+/*#root {
     display: flex;
+    justify-content: space-around;
 }
 #right-side {
     display: flex;
 }
+
+.characters-episode {
+    display: flex;
+    flex-flow: row ;
+    justify-content: space-between;
+    align-content: space-around;
+
+
+}*/
