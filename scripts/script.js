@@ -3,14 +3,14 @@ const divEpisode = document.createElement("div")
 divEpisode.classList.add("date-season-episode", "container-fluid")
 
 
-const getCharacters =  async (id) => {
+const getCharacters =  async () => {
     //console.log(arrayCharacters)
      // try se usa para todo lo que hara la funcion si todo esta bien en los inputs 
       try {  
-        const url = `https://rickandmortyapi.com/api/character/?page=${id}`;
+        const url = "https://rickandmortyapi.com/api/character/";
         const response = await fetch(url)
         const parsedRes = await response.json() // en parsedRes convertimos response (que es obj json) a un obt JS asi podemos aplicar metodos de JS
-       console.log(parsedRes)
+       console.log(url)
         } catch (e){
             console.log(e)
     } 
@@ -25,19 +25,20 @@ const getEpisodeCard = (episode) => {
 
     divEpisode.appendChild(charactersEpisode)
   episode.characters.forEach((elem, index) =>{
-      console.log(getCharacters())
-        const cards = document.createElement("div");
-        cards.classList.add("card", "character", "m-4");
-        cards.style.width = "15rem";
-        charactersEpisode.appendChild(cards)
-        const characImage = document.createElement("img")
-        characImage.setAttribute('src', "./images/2 (1).jpeg");
-        characImage.setAttribute('alt', `na`); 
-        characImage.classList.add("card-img-top", "py-2");
-        cards.appendChild(characImage)
-        const cardBody = document.createElement("div")
-        cardBody.innerHTML = `<div class="card-body px-0"><h5 class="card-title">"elem.name.index | elem.status"</h5> </div>`
-        cards.appendChild(cardBody)
+      const cards = document.createElement("div");
+      cards.classList.add("card", "character", "m-4");
+      cards.style.width = "15rem";
+      charactersEpisode.appendChild(cards)
+      const characImage = document.createElement("img")
+      characImage.setAttribute('src', "./images/2 (1).jpeg");
+      characImage.setAttribute('alt', `na`); 
+      characImage.classList.add("card-img-top", "py-2");
+      cards.appendChild(characImage)
+      const cardBody = document.createElement("div")
+      cardBody.innerHTML = `<div class="card-body px-0"><h5 class="card-title">${elem.name} | elem.status"</h5> </div>`
+      cards.appendChild(cardBody)
+      getCharacters()    
+        
 
     })
 }
