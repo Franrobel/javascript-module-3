@@ -3,56 +3,61 @@ const divEpisode = document.createElement("div")
 divEpisode.classList.add("date-season-episode", "container-fluid")
 
 
-const getCharacters =  async () => {
+/*const getCharacters =  async () => {
     //console.log(arrayCharacters)
      // try se usa para todo lo que hara la funcion si todo esta bien en los inputs 
       try {  
-        const url = "https://rickandmortyapi.com/api/character/";
+        const url = "https://rickandmortyapi.com/api/character";
         const response = await fetch(url)
         const parsedRes = await response.json() // en parsedRes convertimos response (que es obj json) a un obt JS asi podemos aplicar metodos de JS
-       console.log(url)
+        getEachCaracter(parsedRes)
         } catch (e){
             console.log(e)
     } 
- }
+ }*/
 const getEpisodeCard = (episode) => {
     console.log(episode)
     rightSide.appendChild(divEpisode)
     divEpisode.innerHTML = `<h2>${episode.name}</h2> <h6>${episode.air_date} | ${episode.episode}</h6>`;
     console.log(episode.characters)
     const charactersEpisode = document.createElement("div");
-    charactersEpisode.classList.add("characters-episode", "row")
-
+    charactersEpisode.classList.add("characters-list", "row")
     divEpisode.appendChild(charactersEpisode)
-  episode.characters.forEach((elem, index) =>{
-      const cards = document.createElement("div");
-      cards.classList.add("card", "character", "m-4");
-      cards.style.width = "15rem";
-      charactersEpisode.appendChild(cards)
-      const characImage = document.createElement("img")
-      characImage.setAttribute('src', "./images/2 (1).jpeg");
-      characImage.setAttribute('alt', `na`); 
-      characImage.classList.add("card-img-top", "py-2");
-      cards.appendChild(characImage)
-      const cardBody = document.createElement("div")
-      cardBody.innerHTML = `<div class="card-body px-0"><h5 class="card-title">${elem.name} | elem.status"</h5> </div>`
-      cards.appendChild(cardBody)
-      getCharacters()    
-        
 
-    })
-}
+    const getCharacters = (character) => { 
+        console.log(character)
+    const cards = document.createElement("div");
+    cards.classList.add("card", "character", "m-4");
+    cards.style.width = "15rem";
+    charactersEpisode.appendChild(cards)
+    const characImage = document.createElement("img")
+    characImage.setAttribute('src', "./images/2 (1).jpeg");
+    characImage.setAttribute('alt', `na`); 
+    characImage.classList.add("card-img-top", "py-2");
+    cards.appendChild(characImage)
+    const cardBody = document.createElement("div")
+    cardBody.innerHTML = `<div class="card-body px-0"><h5 class="card-title">${elem.index} | elem.status"</h5> </div>`
+    cards.appendChild(cardBody)
+  console.log(getCharacters(elem));
+    }
+  }
+
 
 const getSingleEpisode = async (id) => {
     try {   // try se usa para todo lo que hara la funcion si todo esta bien en los inputs 
         const url = `https://rickandmortyapi.com/api/episode/${id}`
         const response = await fetch(url)
         const parsedRes = await response.json() // en parsedRes convertimos response (que es obj json) a un obt JS asi podemos aplicar metodos de JS
-        
+        const urlCharacters = `https://rickandmortyapi.com/api/character`
+        const responseOfCharac = await fetch(urlCharacters);
+        const parsedCharac = await responseOfCharac.json()
+        getCharacters(parsedCharac)
+
         getEpisodeCard(parsedRes)   
 
     }
    catch (e){
+       console.log(e)
    } 
 }
 
@@ -125,7 +130,7 @@ const getRicMortyEpisodes = async (numOfEpisodes) => {
    // const allPage = toJS1.results + toJS2.results + toJS3.results
     const allPages = toJS1.results.concat(toJS2.results).concat(toJS3.results)
    renderEpisodesList(allPages, numOfEpisodes)
-   
+   //getEpisodeCard(allPages)
 } 
 getRicMortyEpisodes(10);
 
