@@ -1,16 +1,8 @@
-/*#root {
-    display: flex;
-    justify-content: space-around;
+
+#episodes-leftSide {
+    height: 100vh;
 }
+
 #right-side {
-    display: flex;
+    height: 100vh;
 }
-
-.characters-episode {
-    display: flex;
-    flex-flow: row ;
-    justify-content: space-between;
-    align-content: space-around;
-
-
-}*/
