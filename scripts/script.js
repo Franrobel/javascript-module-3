@@ -7,12 +7,13 @@ divEpisode.classList.add("date-season-episode", "container-fluid")
   divContainCharac.classList.add("characters-conatiner", "row", "cols-4", "container-fluid")
   const character =document.createElement('div')
     character.classList.add("character-info")
- const eachCharacterCard = (characObj) =>{
+/* const eachCharacterCard = (characObj) =>{
     rightSide.appendChild(character) 
     //console.log(characObj.episode)
-               character.innerHTML = `${characObj.name}`
+    const characImage = document.createElement("img")
+    characImage.setAttribute('src', `${characObj.image}`);
     // console.log(characObj)
- }
+ }*/
 
   const renderCharacactresCards = async (urlCharacters)=> {
     const response = await fetch(urlCharacters);
@@ -43,9 +44,11 @@ divEpisode.classList.add("date-season-episode", "container-fluid")
 
            document.querySelectorAll(".characters-conatiner").forEach((element) => {
             element.parentElement.removeChild(element); })
-            rightSide.appendChild(character) 
             //console.log(characObj.episode)
-                       character.innerHTML = `${characObj.location.name}`
+            const characImag = document.createElement("img")
+            characImag.setAttribute('src', `${characObj.image}`);
+            rightSide.appendChild(characImag) 
+                     //  character.innerHTML = `${characObj.location.name}`
             // console.log(characObj)
          // eachCharacterCard(characObj)// const getEachCharacInfo = ()=> (elem)
      }
