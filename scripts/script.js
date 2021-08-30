@@ -41,13 +41,12 @@ divEpisode.classList.add("date-season-episode", "container-fluid")
 
   const divContainCharac = document.createElement('div');
   divContainCharac.classList.add("characters-conatiner", "row", "cols-4", "container-fluid")
-  const EachCharacter =  () => {
-  }
+ 
   const renderCharacactresCards = async (urlCharacters)=> {
     const response = await fetch(urlCharacters);
-    console.log(urlCharacters)
+  //  console.log(urlCharacters)
     const characObj = await response.json();
-    console.log(characObj)
+   // console.log(characObj)
     rightSide.appendChild(divContainCharac)
     const charactersEpisode = document.createElement("div");
     charactersEpisode.classList.add("characters-list", "col")
@@ -89,11 +88,15 @@ const renderEpisodesList = (episodes, i) => {
         listElem.style.textAlign = "center"
         listElem.style.margin = "2px 5px 2px 5px"
         listElem.innerHTML =`<a href="#" class="btn-link">Episode ${elem.id}</a>`;
-        listElem.onclick = () => {  
+        listElem.onclick = (e) => {
+            e.preventDefault()  
+            //console.log(document.querySelectorAll(".characters-list"))
+            document.querySelectorAll(".characters-list").forEach((element) => {
+                element.parentElement.removeChild(element); 
+            } )
             getSingleEpisode(elem) //ESTABA HACIENDO EL ELEM.ID Y ERA SOLO ELEM (QUE ME DA EL OBJECTO)
-console.log(elem.id) // SOLO EL NUMERO DEL EPISODIO QUE ESTABA PIDIENDO
-console.log(elem)
-
+//console.log(elem.id) // SOLO EL NUMERO DEL EPISODIO QUE ESTABA PIDIENDO
+//console.log(elem)
              }
     });
     const allEpisodesBtn = document.createElement('button');
@@ -127,10 +130,10 @@ console.log(elem)
 const clearContent = () =>{
   // document.querySelector("#right-side").innerHTML= "";
     document.querySelectorAll("#episodes-list").forEach((element) => {
+       //console.log(element)
         element.parentElement.removeChild(element)
     })
 
-  document.querySelectorAll("characters-list").forEach((element) => element.parentElement.removeChild(element) )
     const button = document.querySelector("#more-episodes-btn")
     button.parentElement.removeChild(button)
 }
