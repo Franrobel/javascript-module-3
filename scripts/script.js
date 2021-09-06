@@ -1,12 +1,14 @@
 
 
     const rightSide = document.querySelector("#right-side");
-const divEpisode = document.createElement("div")
-divEpisode.classList.add("date-season-episode", "container-fluid")
-  const divContainCharac = document.createElement('div');
-  divContainCharac.classList.add("characters-conatiner", "row", "cols-4", "container-fluid")
-  const character =document.createElement('div')
-    character.classList.add("character-info")
+    const divEpisode = document.createElement("div")
+    divEpisode.classList.add("date-season-episode", "container-fluid")
+    const divContainCharac = document.createElement('div');
+    divContainCharac.classList.add("characters-conatiner", "row", "cols-4", "container-fluid")
+   
+    const mainCharacterDiv = document.createElement("div");
+            mainCharacterDiv.id = "main-character-container";
+            mainCharacterDiv.classList.add("container-fluid")
 /* const eachCharacterCard = (characObj) =>{
     rightSide.appendChild(character) 
     //console.log(characObj.episode)
@@ -15,11 +17,16 @@ divEpisode.classList.add("date-season-episode", "container-fluid")
     // console.log(characObj)
  }*/
 
+const fetchInfo = async (url) =>{
+    const response = await fetch(url)
+    const info = await response.json()
+    return info
+} 
+
   const renderCharacactresCards = async (urlCharacters)=> {
-    const response = await fetch(urlCharacters);
-  //  console.log(urlCharacters)
-    const characObj = await response.json();
-   // console.log(characObj)   
+   const response = await fetch(urlCharacters)// const characObj = fetchInfo(urlCharacters)
+   const characObj = await response.json()
+   //console.log(characObj.episode)   
     rightSide.appendChild(divContainCharac)
     const charactersEpisode = document.createElement("div");
     charactersEpisode.classList.add("characters-list", "col")
@@ -30,50 +37,90 @@ divEpisode.classList.add("date-season-episode", "container-fluid")
     charactersEpisode.appendChild(cards)
     const characImage = document.createElement("img")
     characImage.setAttribute('src', `${characObj.image}`);
-    console.log(characObj.image)
+    //console.log(characObj.image)
     characImage.setAttribute('alt', `${characObj.name}`); 
     characImage.classList.add("card-img-top", "py-2");
     cards.appendChild(characImage)
     const cardBody = document.createElement("div")
     cardBody.innerHTML = `<div class="card-body px-0"><h4 class="card-title">${characObj.name}</h4> <h5>${characObj.species} | ${characObj.status}</h5> </div>`
     cards.appendChild(cardBody)
-    cards.onclick = () => {
-        
-        document.querySelectorAll(".date-season-episode").forEach((element) => {
-           element.parentElement.removeChild(element); })
-
-           document.querySelectorAll(".characters-conatiner").forEach((element) => {
-            element.parentElement.removeChild(element); })
-            //console.log(characObj.episode)
-            const characImag = document.createElement("img")
-            characImag.setAttribute('src', `${characObj.image}`);
-            rightSide.appendChild(characImag) 
-                     //  character.innerHTML = `${characObj.location.name}`
-            // console.log(characObj)
-         // eachCharacterCard(characObj)// const getEachCharacInfo = ()=> (elem)
-     }
-  
-}
     
+    cards.onclick = () => {
+        mainCharacterDiv.innerHTML=""
+        document.querySelectorAll(".date-season-episode").forEach((element) => {
+            element.parentElement.removeChild(element);
+        })
+
+        document.querySelectorAll(".characters-conatiner").forEach((element) => {
+            element.parentElement.removeChild(element);
+        })
+
+            rightSide.appendChild(mainCharacterDiv);
+           
+            const imageInfoContainer = document.createElement("div");
+            imageInfoContainer.classList.add("row", "character-total-info");
+
+            mainCharacterDiv.appendChild(imageInfoContainer);
+            const divImage = document.createElement("div");
+            divImage.id = "div-image";
+            divImage.classList.add("col-4");
+            imageInfoContainer.appendChild(divImage)
+            const characImag = document.createElement("img");
+            characImag.style.width = "250px";
+            characImag.setAttribute('src', `${characObj.image}`);
+            divImage.appendChild(characImag); 
+            const characterInfoDiv = document.createElement("div");
+            imageInfoContainer.appendChild(characterInfoDiv)
+            characterInfoDiv.id = "character-info"
+            characterInfoDiv.classList.add("col-8", "py-4")
+            characterInfoDiv.innerHTML = `<h2>${characObj.name}</h2><h5>${characObj.gender} | ${characObj.status} | ${characObj.species} | ${characObj.origin.name}</h5>`
+            const buttonLoc = document.createElement("button");
+            buttonLoc.classList.add("btn", "btn-danger")
+            buttonLoc.innerHTML = "LOCATIONS";
+            characterInfoDiv.appendChild(buttonLoc)
+            const line = document.createElement("hr")
+           mainCharacterDiv.appendChild(line);
+           const characterAppearances = document.createElement("div");
+           characterAppearances.classList.add("character-appearances", "row");
+           mainCharacterDiv.appendChild(characterAppearances)
+         characObj.episode.forEach(async (url)=>{
+            const response = await fetch(url)
+            const data = await response.json()
+            const character = data
+            console.log(character)
+            const showEpisodesCharacter = document.createElement('div')
+             characterAppearances.appendChild(showEpisodesCharacter)
+             showEpisodesCharacter.classList.add(`episode-${character.id}`, "col-4", "p-3", "text-center")
+             showEpisodesCharacter.innerHTML = `<h4>Episode ${character.id}</h4> <h6>${character.episode}</h6>`
+         })
+         document.querySelector(".btn-danger").onclick = (episode) => {
+            mainCharacterDiv.innerHTML =""
+            getSingleEpisode(episode)
+        }
+            // eachCharacterCard(characObj)// const getEachCharacInfo = ()=> (elem) 
+}
+  }
+
   
 const getSingleEpisode = (episode) => {
-    console.log(episode)
+    //console.log(episode)
     rightSide.appendChild(divEpisode)
     //const charactersEpisode = document.createElement("div");
     divEpisode.innerHTML = `<h2>${episode.name}</h2> <h6>${episode.air_date} | ${episode.episode}</h6>`;
     //charactersEpisode.classList.add("characters-list", "row")
    // divEpisode.appendChild(charactersEpisode)
-    episode.characters.forEach( urlCharacters=>{
+    episode.characters.forEach( urlCharacters => {
         renderCharacactresCards(urlCharacters);
-    })
+       // console.log(urlCharacters);
 
-}
+})}
 
 const renderEpisodesList = (episodes, i) => {
-    console.log(episodes, i)
+   // console.log(episodes)
+    //console.log(i)
     const until10Episodes = episodes.slice(0, i)
     until10Episodes.forEach( (elem, index) => {
-        console.log(elem)
+       //console.log(elem)
         let listElem = document.createElement("li");
         listElem.classList.add(`episode-${index++}`);
         listElem.id = "episodes-list"
@@ -83,12 +130,14 @@ const renderEpisodesList = (episodes, i) => {
         listElem.style.margin = "2px 5px 2px 5px"
         listElem.innerHTML =`<a href="#" class="btn-link">Episode ${elem.id}</a>`;
         listElem.onclick = () => {
-            
+            document.querySelectorAll("#main-character-container").forEach((element) => {
+                element.parentElement.removeChild(element); })
             //console.log(document.querySelectorAll(".characters-list"))
             document.querySelectorAll(".characters-list").forEach((element) => {
                 element.parentElement.removeChild(element); 
             } )
-            character.remove()
+           
+            mainCharacterDiv.remove()
             getSingleEpisode(elem) //ESTABA HACIENDO EL ELEM.ID Y ERA SOLO ELEM (QUE ME DA EL OBJECTO)
 //console.log(elem.id) // SOLO EL NUMERO DEL EPISODIO QUE ESTABA PIDIENDO
 //console.log(elem)
@@ -144,11 +193,11 @@ const getRicMortyEpisodes = async (numOfEpisodes) => {
     const url3 = "https://rickandmortyapi.com/api/episode?page=3"
     const fetchUrl3 = await fetch(url3);
     const toJS3 = await fetchUrl3.json();
- 
+  //  console.log(toJS1)
    // const allPage = toJS1.results + toJS2.results + toJS3.results
     const allPages = toJS1.results.concat(toJS2.results).concat(toJS3.results)
    renderEpisodesList(allPages, numOfEpisodes)
-   console.log(allPages)
+  //console.log(allPages)
    //getEpisodeCard(allPages)
 } 
 getRicMortyEpisodes(10);
