@@ -83,20 +83,28 @@ const fetchInfo = async (url) =>{
            const characterAppearances = document.createElement("div");
            characterAppearances.classList.add("character-appearances", "row");
            mainCharacterDiv.appendChild(characterAppearances)
+           console.log(characObj);
          characObj.episode.forEach(async (url)=>{
             const response = await fetch(url)
             const data = await response.json()
-            const character = data
-            console.log(character)
-            const showEpisodesCharacter = document.createElement('div')
+            
+            const showEpisodesCharacter = document.createElement('a')
              characterAppearances.appendChild(showEpisodesCharacter)
-             showEpisodesCharacter.classList.add(`episode-${character.id}`, "col-4", "p-3", "text-center")
-             showEpisodesCharacter.innerHTML = `<h4>Episode ${character.id}</h4> <h6>${character.episode}</h6>`
+             showEpisodesCharacter.classList.add(`episode-${data.id}`, "col-4", "p-3", "text-center")
+             showEpisodesCharacter.innerHTML = `<h4>Episode ${data.id}</h4> <h6>${data.episode}</h6>`
+             console.log(characObj.location)
          })
-         document.querySelector(".btn-danger").onclick = (episode) => {
+         document.querySelector(".btn-danger").onclick = () => {
             mainCharacterDiv.innerHTML =""
-            getSingleEpisode(episode)
-        }
+            const locationCharac = document.createElement("div")
+            locationCharac.innerHTML= `${characObj.location.name}`
+            mainCharacterDiv.appendChild(locationCharac)
+            rightSide.appendChild(mainCharacterDiv)
+
+                
+            }
+
+        
             // eachCharacterCard(characObj)// const getEachCharacInfo = ()=> (elem) 
 }
   }
@@ -135,6 +143,8 @@ const renderEpisodesList = (episodes, i) => {
             //console.log(document.querySelectorAll(".characters-list"))
             document.querySelectorAll(".characters-list").forEach((element) => {
                 element.parentElement.removeChild(element); 
+                mainCharacterDiv.innerHTML=""
+
             } )
            
             mainCharacterDiv.remove()
@@ -153,7 +163,7 @@ const renderEpisodesList = (episodes, i) => {
         e.preventDefault()
         clearContent()
         getRicMortyEpisodes(41)
-        
+        mainCharacterDiv.innerHTML=""
     }
     )  
 }
