@@ -92,17 +92,39 @@ const fetchInfo = async (url) =>{
              characterAppearances.appendChild(showEpisodesCharacter)
              showEpisodesCharacter.classList.add(`episode-${data.id}`, "col-4", "p-3", "text-center")
              showEpisodesCharacter.innerHTML = `<h4>Episode ${data.id}</h4> <h6>${data.episode}</h6>`
-             console.log(characObj.location)
          })
-         document.querySelector(".btn-danger").onclick = () => {
-            mainCharacterDiv.innerHTML =""
-            const locationCharac = document.createElement("div")
-            locationCharac.innerHTML= `${characObj.location.name}`
-            mainCharacterDiv.appendChild(locationCharac)
-            rightSide.appendChild(mainCharacterDiv)
-
-                
-            }
+         document.querySelector(".btn-danger").onclick = async () => {
+             mainCharacterDiv.innerHTML =""
+             const locationData = await fetchInfo(characObj.location.url)
+             const locationCharac = document.createElement("div")
+             mainCharacterDiv.appendChild(locationCharac)
+             locationCharac.innerHTML= `<h2>${locationData.name}</h2> <h5>${locationData.type} | ${locationData.dimension}</h5>`
+            console.log(locationData)
+            locationData.residents.forEach(async (url)=> {
+                const charactersInLoc = await fetchInfo(url)
+                rightSide.appendChild(mainCharacterDiv)
+            
+                rightSide.appendChild(divContainCharac)
+                const charactersEpisode = document.createElement("div");
+                charactersEpisode.classList.add("characters-list", "col")
+                divContainCharac.appendChild(charactersEpisode)
+                const cards = document.createElement("div");
+                cards.classList.add("card", "character", "m-4");
+                cards.style.width = "15rem";
+                charactersEpisode.appendChild(cards)
+                const characImage = document.createElement("img")
+                characImage.setAttribute('src', `${charactersInLoc.image}`);
+                //console.log(characObj.image)
+                characImage.setAttribute('alt', `${charactersInLoc.name}`); 
+                characImage.classList.add("card-img-top", "py-2");
+                cards.appendChild(characImage)
+                const cardBody = document.createElement("div")
+                cardBody.innerHTML = `<div class="card-body px-0"><h4 class="card-title">${charactersInLoc.name}</h4> <h5>${charactersInLoc.species} | ${charactersInLoc.status}</h5> </div>`
+                cards.appendChild(cardBody)
+            })
+            
+        }
+            
 
         
             // eachCharacterCard(characObj)// const getEachCharacInfo = ()=> (elem) 
